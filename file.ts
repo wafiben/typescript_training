@@ -15,8 +15,21 @@ type Pet=Character;
 
 type Hero=Character&{
 	pet?: Pet;
+	pets?: Array<Pet>,
+	equipments?: Array<Equipment>,
 };
+type Magic={magic: number}
+type Magician=Character&Magic&{equipments: Array<Equipment>}
 
+
+type MagicalPet=Character&Magic
+type Equipment={
+	attack?: number;
+	price?: number;
+	defense?: number;
+
+}
+type WithMagic=Equipment&Magic
 
 // ====================
 // Ne touchez PAS aux lignes ci-dessous, faites en sorte que TypeScript
@@ -80,3 +93,4 @@ const myMagicienHero: Magician={
 	equipments: [smallMagicalWand],
 	magic: 200,
 };
+
