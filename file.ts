@@ -1,96 +1,81 @@
-// Ce code TypeScript n'est pas complet.
-// Regardez les dernières lignes de ce script : TypeScript remonte des erreurs.
-// Votre but est de modifier le code pour corriger ces erreurs.
-// Vous allez devoir modifier les types déjà définis et en créer d'autres.
-// ====================
+//les type generique
+/*type ShopOfString={
+	name: string;
+	items: Array<string>;
+}
+type ShopOfBoolean={
+	name: string;
+	items: Array<boolean>;
+}
+type ShopOfNumbers={
+	name: string;
+	items: Array<number>;
+}*/
 
-type Character={
+
+////////////////////////////////pour éviter cette diplication
+/*type Shop<ItemType>={
+	name: string;
+	items: Array<ItemType>
+}
+type ShopOfString=Shop<string>
+type ShopOfBoolean=Shop<boolean>
+type ShopOfNumbers=Shop<number>*/
+
+////---les fonction génériques;
+
+interface Character {
 	name: string;
 	life: number;
+	amount?: string;
 	attack: number;
-	defense: number;
-};
-
-type Pet=Character;
-
-type Hero=Character&{
-	pet?: Pet;
-	pets?: Array<Pet>,
-	equipments?: Array<Equipment>,
-};
-type Magic={magic: number}
-type Magician=Character&Magic&{equipments: Array<Equipment>}
-
-
-type MagicalPet=Character&Magic
-type Equipment={
-	attack?: number;
-	price?: number;
 	defense?: number;
+}
+interface Shop<T> {
+	name: string;
+	owner: Character;
+	items: Array<T>;
+};
+// Une fonction générique
+function createShop<ItemType>(name: string,owner: Character,items: Array<ItemType>): Shop<ItemType> {
+	return {name,owner,items};
 
 }
-type WithMagic=Equipment&Magic
 
-// ====================
-// Ne touchez PAS aux lignes ci-dessous, faites en sorte que TypeScript
-// soit content en modifiant UNIQUEMENT le code du dessus !
+// Appel de la fonction générique
+const armory=createShop('My armory',{name: 'Bob',life: 100,attack: 1,defense: 2},[]);
 
-const babyDragon: Pet={
-	name: 'Typeon',
-	life: 50,
-	attack: 10,
-	defense: 20,
-};
 
-const babyLicorn: MagicalPet={
-	name: 'Typemoor',
-	life: 80,
-	attack: 5,
-	defense: 30,
-	magic: 50,
-};
 
-const smallArmor: Equipment={
-	price: 30,
-	attack: 2,
-	defense: 5,
-};
 
-const smallSword: Equipment={
-	price: 20,
-	attack: 5,
-};
+function getArgument<T>(x: T): T {
+	return x
+}
 
-const smallShield: Equipment={
-	price: 15,
-	defense: 10,
-};
+getArgument(4);
 
-const smallMagicalWand: Equipment&WithMagic={
-	price: 50,
-	attack: 4,
-	magic: 10,
-};
+//type partial
+type Person={
+	name: string;
+	age: number;
+	adress: string;
+}
 
-const myWarriorHero: Hero={
-	name: 'TSolomon',
-	life: 200,
-	attack: 30,
-	defense: 50,
-	pets: [babyDragon,babyLicorn],
-	equipments: [
-		smallArmor,
-		smallSword,
-		smallShield,
-	],
-};
+const x: Partial<Person>={
+	age: 30
+}
 
-const myMagicienHero: Magician={
-	name: 'TSoren',
-	life: 150,
-	attack: 20,
-	defense: 40,
-	equipments: [smallMagicalWand],
-	magic: 200,
-};
+type keyesForMycharacter="age"|"name"|"present"
 
+type MyCharacter=Record<keyesForMycharacter,string|number|boolean>;
+const a: MyCharacter={
+	name: "wafi",
+	age: "20",
+	present: "yes",
+	opa:"ss"
+}
+const b: MyCharacter={
+	name: "wafi",
+	age: 20,
+	present: true
+}
